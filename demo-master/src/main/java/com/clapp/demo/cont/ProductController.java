@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clapp.demo.model.Employee;
@@ -17,6 +19,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.firebase.auth.FirebaseAuth;
 
 @RestController
 public class ProductController {
@@ -34,7 +37,11 @@ public class ProductController {
 		}
 		return prodList;
 	}
-	
-	
+	@PostMapping("/saveProduct")
+	public String saveProduct(@RequestBody Product product) {
+		CollectionReference pruductCR= db.getFirebase().collection("products");
+		pruductCR.document().set(product);
+		return product.getId();
+	}
 	
 }
