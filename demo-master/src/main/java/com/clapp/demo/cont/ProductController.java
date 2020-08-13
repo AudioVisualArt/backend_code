@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,7 +62,13 @@ public class ProductController {
 		System.out.println(writeResult.isDone());
 		return product.getId();
 	}
-	
-	
+	@DeleteMapping("/deleteProduct/{prodId}")
+		public String deleteProduct (@PathVariable String prodId ) {
+		
+		DocumentReference addedDocRef = db.getFirebase().collection("products").document(prodId);
+		ApiFuture<WriteResult> writeResult = addedDocRef.delete();
+		System.out.println(writeResult.isDone());
+		return prodId;
+	}
 	
 }
