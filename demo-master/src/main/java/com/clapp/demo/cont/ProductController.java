@@ -6,7 +6,9 @@ import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,7 +53,14 @@ public class ProductController {
 		return product.getId();
 	}
 	
-	
+	@PutMapping("/updateProduct/{prodId}")
+	public String updateProduct (@PathVariable String prodId, @RequestBody Product product) {
+		
+		DocumentReference addedDocRef = db.getFirebase().collection("products").document(prodId);
+		ApiFuture<WriteResult> writeResult = addedDocRef.set(product);
+		System.out.println(writeResult.isDone());
+		return product.getId();
+	}
 	
 	
 	
