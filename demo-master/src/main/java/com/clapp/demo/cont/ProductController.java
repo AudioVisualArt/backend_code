@@ -2,6 +2,7 @@ package com.clapp.demo.cont;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,9 @@ public class ProductController {
 		System.out.println("entre a los productos");
 		List<Product> prodList = new ArrayList<Product>();
 		CollectionReference product= db.getFirebase().collection("products");
-		System.out.println("entre a los productos");
+		//System.out.println("entre a los productos");
 		ApiFuture<QuerySnapshot> querySnapshot= product.get();
-		System.out.println("entre a los productos");
+		//System.out.println("entre a los productos");
 		for(DocumentSnapshot doc:querySnapshot.get().getDocuments()) {
 			Product pro = doc.toObject(Product.class);
 			prodList.add(pro);
@@ -67,8 +68,24 @@ public class ProductController {
 		
 		DocumentReference addedDocRef = db.getFirebase().collection("products").document(prodId);
 		ApiFuture<WriteResult> writeResult = addedDocRef.delete();
-		System.out.println(writeResult.isDone());
+		System.out.println("resultado del borrado: "+writeResult.isDone());
 		return prodId;
+	}
+	
+	@GetMapping("/getProduct/{prodId}")
+	public Product getProduct (@PathVariable String prodId) {
+		
+		DocumentReference addedDocRef = db.getFirebase().collection("products").document(prodId);
+		ApiFuture<DocumentSnapshot> writeResult = addedDocRef.get();
+		try {
+			DocumentSnapshot document = writeResult.get();
+			Product pro = document.toObject(Product.class);
+			return pro;
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }
