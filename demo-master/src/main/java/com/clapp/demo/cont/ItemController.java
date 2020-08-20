@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.clapp.demo.model.Product;
+import com.clapp.demo.model.Item;
 import com.clapp.demo.service.FirebaseInitializer;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
@@ -27,43 +27,43 @@ import com.google.cloud.firestore.WriteResult;
 
 
 @RestController
-public class ProductController {
+public class ItemController {
 
 	@Autowired
 	FirebaseInitializer db;
-	@GetMapping("/getAllProducts")
-	public List<Product> getAllProducts() throws InterruptedException, ExecutionException {
+	@GetMapping("/getAllItems")
+	public List<Item> getAllProducts() throws InterruptedException, ExecutionException {
 		System.out.println("entre a los productos");
-		List<Product> prodList = new ArrayList<Product>();
+		List<Item> prodList = new ArrayList<Item>();
 		CollectionReference product= db.getFirebase().collection("products");
 		//System.out.println("entre a los productos");
 		ApiFuture<QuerySnapshot> querySnapshot= product.get();
 		//System.out.println("entre a los productos");
 		for(DocumentSnapshot doc:querySnapshot.get().getDocuments()) {
-			Product pro = doc.toObject(Product.class);
+			Item pro = doc.toObject(Item.class);
 			prodList.add(pro);
 		}
 		return prodList;
 	}
-	@PostMapping("/saveProduct")
-	public String saveProduct(@RequestBody Product product) {
+	@PostMapping("/saveItem")
+	public String saveProduct(@RequestBody Item item) {
 		DocumentReference addedDocRef = db.getFirebase().collection("products").document();
 		System.out.println("Added document with ID: " + addedDocRef.getId());
-		product.setId(addedDocRef.getId());
-		ApiFuture<WriteResult> writeResult = addedDocRef.set(product);
+		item.setId(addedDocRef.getId());
+		ApiFuture<WriteResult> writeResult = addedDocRef.set(item);
 		System.out.println(writeResult.isDone());
-		return product.getId();
+		return item.getId();
 	}
 	
-	@PutMapping("/updateProduct/{prodId}")
-	public String updateProduct (@PathVariable String prodId, @RequestBody Product product) {
+	@PutMapping("/updateItem/{prodId}")
+	public String updateProduct (@PathVariable String prodId, @RequestBody Item item) {
 		
 		DocumentReference addedDocRef = db.getFirebase().collection("products").document(prodId);
-		ApiFuture<WriteResult> writeResult = addedDocRef.set(product);
+		ApiFuture<WriteResult> writeResult = addedDocRef.set(item);
 		System.out.println(writeResult.isDone());
-		return product.getId();
+		return item.getId();
 	}
-	@DeleteMapping("/deleteProduct/{prodId}")
+	@DeleteMapping("/deleteItem/{prodId}")
 		public String deleteProduct (@PathVariable String prodId ) {
 		
 		DocumentReference addedDocRef = db.getFirebase().collection("products").document(prodId);
@@ -72,14 +72,14 @@ public class ProductController {
 		return prodId;
 	}
 	
-	@GetMapping("/getProduct/{prodId}")
-	public Product getProduct (@PathVariable String prodId) {
+	@GetMapping("/getItem/{prodId}")
+	public Item getProduct (@PathVariable String prodId) {
 		
 		DocumentReference addedDocRef = db.getFirebase().collection("products").document(prodId);
 		ApiFuture<DocumentSnapshot> writeResult = addedDocRef.get();
 		try {
 			DocumentSnapshot document = writeResult.get();
-			Product pro = document.toObject(Product.class);
+			Item pro = document.toObject(Item.class);
 			return pro;
 		} catch (InterruptedException | ExecutionException e) {
 			// TODO Auto-generated catch block

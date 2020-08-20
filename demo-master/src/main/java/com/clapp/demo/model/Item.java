@@ -3,12 +3,14 @@ package com.clapp.demo.model;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Product {
+public class Item {
 	private boolean disponible;
 	private String titulo;
 	private double valor;
 	private String id;
 	private String fotoUrl;
+	private String itemDescription;
+	private String idOwner;
 	
 	
 	
