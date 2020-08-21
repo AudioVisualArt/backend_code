@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.clapp.demo.model.Item;
-import com.clapp.demo.model.User;
+import com.clapp.demo.model.Equipment;
 import com.clapp.demo.service.FirebaseInitializer;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
@@ -24,58 +23,58 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 
 @RestController
-public class UserController {
+public class EquipmentController {
 
 	@Autowired
 	FirebaseInitializer db;
-	@GetMapping("/getAllUsers")
-	public List<User> getAllUsers() throws InterruptedException, ExecutionException {
+	@GetMapping("/getAllEquipments")
+	public List<Equipment> getAllEquipments() throws InterruptedException, ExecutionException {
 		System.out.println("entre a los productos");
-		List<User> userList = new ArrayList<User>();
-		CollectionReference user= db.getFirebase().collection("users");
+		List<Equipment> EquipmentList = new ArrayList<Equipment>();
+		CollectionReference Equipment= db.getFirebase().collection("Equipments");
 		//System.out.println("entre a los productos");
-		ApiFuture<QuerySnapshot> querySnapshot= user.get();
+		ApiFuture<QuerySnapshot> querySnapshot= Equipment.get();
 		//System.out.println("entre a los productos");
 		for(DocumentSnapshot doc:querySnapshot.get().getDocuments()) {
-			User usr = doc.toObject(User.class);
-			userList.add(usr);
+			Equipment usr = doc.toObject(Equipment.class);
+			EquipmentList.add(usr);
 		}
-		return userList;
+		return EquipmentList;
 	}
 	
-	@PostMapping("/saveUser")
-	public String saveUser(@RequestBody User user) {
-		DocumentReference addedDocRef = db.getFirebase().collection("users").document();
-		System.out.println("Added user with ID: " + addedDocRef.getId());
-		user.setId(addedDocRef.getId());
-		ApiFuture<WriteResult> writeResult = addedDocRef.set(user);
+	@PostMapping("/saveEquipment")
+	public String saveEquipment(@RequestBody Equipment Equipment) {
+		DocumentReference addedDocRef = db.getFirebase().collection("Equipments").document();
+		System.out.println("Added Equipment with ID: " + addedDocRef.getId());
+		Equipment.setId(addedDocRef.getId());
+		ApiFuture<WriteResult> writeResult = addedDocRef.set(Equipment);
 		System.out.println(writeResult.isDone());
-		return user.getId();
+		return Equipment.getId();
 	}
-	@PutMapping("/updateUser/{userId}")
-	public String updateUser (@PathVariable String userId, @RequestBody User user) {
+	@PutMapping("/updateEquipment/{EquipmentId}")
+	public String updateEquipment (@PathVariable String EquipmentId, @RequestBody Equipment Equipment) {
 		
-		DocumentReference addedDocRef = db.getFirebase().collection("users").document(userId);
-		ApiFuture<WriteResult> writeResult = addedDocRef.set(user);
+		DocumentReference addedDocRef = db.getFirebase().collection("Equipments").document(EquipmentId);
+		ApiFuture<WriteResult> writeResult = addedDocRef.set(Equipment);
 		System.out.println(writeResult.isDone());
-		return user.getId();
+		return Equipment.getId();
 	}
-	@DeleteMapping("/deleteUser/{userId}")
-	public String deleteUser (@PathVariable String userId ) {
+	@DeleteMapping("/deleteEquipment/{EquipmentId}")
+	public String deleteEquipment (@PathVariable String EquipmentId ) {
 	
-	DocumentReference addedDocRef = db.getFirebase().collection("users").document(userId);
+	DocumentReference addedDocRef = db.getFirebase().collection("Equipments").document(EquipmentId);
 	ApiFuture<WriteResult> writeResult = addedDocRef.delete();
 	System.out.println("resultado del borrado: "+writeResult.isDone());
-	return userId;
+	return EquipmentId;
 }
-	@GetMapping("/getUser/{userId}")
-	public User getUser (@PathVariable String userId) {
+	@GetMapping("/getEquipment/{EquipmentId}")
+	public Equipment getEquipment (@PathVariable String EquipmentId) {
 		
-		DocumentReference addedDocRef = db.getFirebase().collection("users").document(userId);
+		DocumentReference addedDocRef = db.getFirebase().collection("Equipments").document(EquipmentId);
 		ApiFuture<DocumentSnapshot> writeResult = addedDocRef.get();
 		try {
 			DocumentSnapshot document = writeResult.get();
-			User usr = document.toObject(User.class);
+			Equipment usr = document.toObject(Equipment.class);
 			return usr;
 		} catch (InterruptedException | ExecutionException e) {
 			// TODO Auto-generated catch block

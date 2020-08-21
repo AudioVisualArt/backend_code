@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.clapp.demo.model.Item;
-import com.clapp.demo.model.User;
+import com.clapp.demo.model.Event;
 import com.clapp.demo.service.FirebaseInitializer;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
@@ -24,58 +23,57 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 
 @RestController
-public class UserController {
-
+public class EventController {
 	@Autowired
 	FirebaseInitializer db;
-	@GetMapping("/getAllUsers")
-	public List<User> getAllUsers() throws InterruptedException, ExecutionException {
+	@GetMapping("/getAllEvents")
+	public List<Event> getAllEvents() throws InterruptedException, ExecutionException {
 		System.out.println("entre a los productos");
-		List<User> userList = new ArrayList<User>();
-		CollectionReference user= db.getFirebase().collection("users");
+		List<Event> EventList = new ArrayList<Event>();
+		CollectionReference Event= db.getFirebase().collection("Events");
 		//System.out.println("entre a los productos");
-		ApiFuture<QuerySnapshot> querySnapshot= user.get();
+		ApiFuture<QuerySnapshot> querySnapshot= Event.get();
 		//System.out.println("entre a los productos");
 		for(DocumentSnapshot doc:querySnapshot.get().getDocuments()) {
-			User usr = doc.toObject(User.class);
-			userList.add(usr);
+			Event usr = doc.toObject(Event.class);
+			EventList.add(usr);
 		}
-		return userList;
+		return EventList;
 	}
 	
-	@PostMapping("/saveUser")
-	public String saveUser(@RequestBody User user) {
-		DocumentReference addedDocRef = db.getFirebase().collection("users").document();
-		System.out.println("Added user with ID: " + addedDocRef.getId());
-		user.setId(addedDocRef.getId());
-		ApiFuture<WriteResult> writeResult = addedDocRef.set(user);
+	@PostMapping("/saveEvent")
+	public String saveEvent(@RequestBody Event Event) {
+		DocumentReference addedDocRef = db.getFirebase().collection("Events").document();
+		System.out.println("Added Event with ID: " + addedDocRef.getId());
+		Event.setId(addedDocRef.getId());
+		ApiFuture<WriteResult> writeResult = addedDocRef.set(Event);
 		System.out.println(writeResult.isDone());
-		return user.getId();
+		return Event.getId();
 	}
-	@PutMapping("/updateUser/{userId}")
-	public String updateUser (@PathVariable String userId, @RequestBody User user) {
+	@PutMapping("/updateEvent/{EventId}")
+	public String updateEvent (@PathVariable String EventId, @RequestBody Event Event) {
 		
-		DocumentReference addedDocRef = db.getFirebase().collection("users").document(userId);
-		ApiFuture<WriteResult> writeResult = addedDocRef.set(user);
+		DocumentReference addedDocRef = db.getFirebase().collection("Events").document(EventId);
+		ApiFuture<WriteResult> writeResult = addedDocRef.set(Event);
 		System.out.println(writeResult.isDone());
-		return user.getId();
+		return Event.getId();
 	}
-	@DeleteMapping("/deleteUser/{userId}")
-	public String deleteUser (@PathVariable String userId ) {
+	@DeleteMapping("/deleteEvent/{EventId}")
+	public String deleteEvent (@PathVariable String EventId ) {
 	
-	DocumentReference addedDocRef = db.getFirebase().collection("users").document(userId);
+	DocumentReference addedDocRef = db.getFirebase().collection("Events").document(EventId);
 	ApiFuture<WriteResult> writeResult = addedDocRef.delete();
 	System.out.println("resultado del borrado: "+writeResult.isDone());
-	return userId;
+	return EventId;
 }
-	@GetMapping("/getUser/{userId}")
-	public User getUser (@PathVariable String userId) {
+	@GetMapping("/getEvent/{EventId}")
+	public Event getEvent (@PathVariable String EventId) {
 		
-		DocumentReference addedDocRef = db.getFirebase().collection("users").document(userId);
+		DocumentReference addedDocRef = db.getFirebase().collection("Events").document(EventId);
 		ApiFuture<DocumentSnapshot> writeResult = addedDocRef.get();
 		try {
 			DocumentSnapshot document = writeResult.get();
-			User usr = document.toObject(User.class);
+			Event usr = document.toObject(Event.class);
 			return usr;
 		} catch (InterruptedException | ExecutionException e) {
 			// TODO Auto-generated catch block

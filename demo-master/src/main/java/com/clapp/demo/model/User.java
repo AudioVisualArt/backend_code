@@ -2,7 +2,7 @@ package com.clapp.demo.model;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Component 
 public class User {
 	String id;
 	int age;
