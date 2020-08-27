@@ -20,6 +20,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 
@@ -86,12 +87,15 @@ public class UserController {
 	@GetMapping("/getUserByEmail/{email}")
 	public User getUserByEmail (@PathVariable String email) {
 		
-		DocumentReference addedDocRef = db.getFirebase().collection("users").document(e);
-		ApiFuture<DocumentSnapshot> writeResult = addedDocRef.get();
+		CollectionReference addedDocRef = db.getFirebase().collection("users");
+		Query query = addedDocRef.whereEqualTo("email", email);
+		ApiFuture<QuerySnapshot> writeResult = addedDocRef.get();
 		try {
-			DocumentSnapshot document = writeResult.get();
-			User usr = document.toObject(User.class);
-			return usr;
+			for (DocumentSnapshot document : writeResult.get().getDocuments()) {
+				  System.out.println(document.getId());
+				  User usr = document.toObject(User.class);
+				  return usr;
+			}
 		} catch (InterruptedException | ExecutionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
