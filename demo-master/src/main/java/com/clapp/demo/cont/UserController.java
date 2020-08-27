@@ -83,4 +83,19 @@ public class UserController {
 		}
 		return null;
 	}
+	@GetMapping("/getUserByEmail/{email}")
+	public User getUserByEmail (@PathVariable String email) {
+		
+		DocumentReference addedDocRef = db.getFirebase().collection("users").document(e);
+		ApiFuture<DocumentSnapshot> writeResult = addedDocRef.get();
+		try {
+			DocumentSnapshot document = writeResult.get();
+			User usr = document.toObject(User.class);
+			return usr;
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
