@@ -90,6 +90,10 @@ public class UserController {
 		CollectionReference addedDocRef = db.getFirebase().collection("users");
 		Query query = addedDocRef.whereEqualTo("email", email);
 		ApiFuture<QuerySnapshot> writeResult = addedDocRef.get();
+
+	//	DocumentReference addedDocRef = db.getFirebase().collection("users").document(email);
+		//ApiFuture<DocumentSnapshot> writeResult = addedDocRef.get();
+
 		try {
 			for (DocumentSnapshot document : writeResult.get().getDocuments()) {
 				  System.out.println(document.getId());
@@ -97,7 +101,7 @@ public class UserController {
 				  return usr;
 			}
 		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch bloc
 			e.printStackTrace();
 		}
 		return null;

@@ -6,12 +6,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class Project {
 
-	String contacto;
-	List<String> crew;
+	private String contacto;
+	private List<String> crew;
 	//List<String>locations;
-	String proyectName;
-	String projectType;
+	private String proyectName;
+	private String projectType;
 	String description;
+	private String id;
+	
 	public String getContacto() {
 		return contacto;
 	}
@@ -26,6 +28,12 @@ public class Project {
 	}
 	public String getDescription() {
 		return description;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	
