@@ -89,7 +89,7 @@ public class UserController {
 		
 		CollectionReference addedDocRef = db.getFirebase().collection("users");
 		Query query = addedDocRef.whereEqualTo("email", email);
-		ApiFuture<QuerySnapshot> writeResult = addedDocRef.get();
+		ApiFuture<QuerySnapshot> writeResult = query.get();
 
 	//	DocumentReference addedDocRef = db.getFirebase().collection("users").document(email);
 		//ApiFuture<DocumentSnapshot> writeResult = addedDocRef.get();
