@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clapp.demo.model.Contract;
-
+import com.clapp.demo.model.User;
 import com.clapp.demo.service.FirebaseInitializer;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 
@@ -41,7 +42,25 @@ public class ContractController {
 		}
 		return contList;
 	}
-	
+	@GetMapping("/getAllContractsBidder/bidderId")
+	public List<Contract> getAllContractsBidder(@PathVariable String bidderId) throws InterruptedException, ExecutionException {
+		CollectionReference addedDocRef = db.getFirebase().collection("Contracts");
+		Query query = addedDocRef.whereEqualTo("userBidderId", bidderId);
+		ApiFuture<QuerySnapshot> writeResult = query.get();
+		try {
+			List<Contract> contracts = new ArrayList<Contract>();
+			for (DocumentSnapshot document : writeResult.get().getDocuments()) {
+				  System.out.println(document.getId());
+				  contracts.add(document.toObject(Contract.class));
+				  return contracts;
+			}
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch bloc
+			e.printStackTrace();
+		}
+		return null;
+	}
+	}
 	@PostMapping("/saveContract")
 	public String saveContract(@RequestBody Contract contract) {
 		DocumentReference addedDocRef = db.getFirebase().collection("Contracts").document();
