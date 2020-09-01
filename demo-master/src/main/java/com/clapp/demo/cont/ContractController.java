@@ -42,7 +42,7 @@ public class ContractController {
 		}
 		return contList;
 	}
-	@GetMapping("/getAllContractsBidder/bidderId")
+	@GetMapping("/getAllContractsBidder/{bidderId}")
 	public List<Contract> getAllContractsBidder(@PathVariable String bidderId) throws InterruptedException, ExecutionException {
 		CollectionReference addedDocRef = db.getFirebase().collection("Contracts");
 		Query query = addedDocRef.whereEqualTo("userBidderId", bidderId);
@@ -60,7 +60,7 @@ public class ContractController {
 		}
 		return null;
 	}
-	}
+	
 	@PostMapping("/saveContract")
 	public String saveContract(@RequestBody Contract contract) {
 		DocumentReference addedDocRef = db.getFirebase().collection("Contracts").document();
