@@ -14,8 +14,17 @@ public class Contract {
 	int workHours;
 	String userApplicantId;
 	String userBidderId;
+	String projectId;
 	String id;
 	
+	
+	
+	public String getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
 	public String getId() {
 		return id;
 	}
