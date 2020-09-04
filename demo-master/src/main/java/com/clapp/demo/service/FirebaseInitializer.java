@@ -19,7 +19,7 @@ public class FirebaseInitializer {
 	@PostConstruct
 	private void initDB() throws IOException {
 		InputStream serviceAccount = this.getClass().getClassLoader()
-				.getResourceAsStream("./clappauth-firebase-adminsdk-gyzjx-aeafba925a.json");
+				.getResourceAsStream("./clappauth-firebase-adminsdk-gyzjx-aa03b4f0bf.json");
 
 		FirebaseOptions options = new FirebaseOptions.Builder()
 				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
