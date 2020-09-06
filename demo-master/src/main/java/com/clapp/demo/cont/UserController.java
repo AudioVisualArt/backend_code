@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.clapp.demo.model.Item;
+import com.clapp.demo.model.Contract;
+
 import com.clapp.demo.model.User;
 import com.clapp.demo.service.FirebaseInitializer;
 import com.google.api.core.ApiFuture;
@@ -29,6 +30,8 @@ public class UserController {
 
 	@Autowired
 	FirebaseInitializer db;
+	FirebaseInitializer db2;
+	
 	@GetMapping("/getAllUsers")
 	public List<User> getAllUsers() throws InterruptedException, ExecutionException {
 		System.out.println("entre a los productos");
@@ -100,6 +103,40 @@ public class UserController {
 				  User usr = document.toObject(User.class);
 				  return usr;
 			}
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch bloc
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@GetMapping("/getCollaborators/{projectId}")
+	public List<User> getCollaborators (@PathVariable String projectId) {
+		
+		CollectionReference addedDocRef = db.getFirebase().collection("Contracts");
+		Query query = addedDocRef.whereEqualTo("projectId", projectId).whereEqualTo("accepted", true);
+		ApiFuture<QuerySnapshot> writeResult = query.get();
+
+	//	DocumentReference addedDocRef = db.getFirebase().collection("users").document(email);
+		//ApiFuture<DocumentSnapshot> writeResult = addedDocRef.get();
+		List<User> userList = new ArrayList<User>();
+		try {
+			for (DocumentSnapshot document : writeResult.get().getDocuments()) {
+				  System.out.println(document.getId());
+				  Contract cont = document.toObject(Contract.class);
+				  
+				  System.out.println("entre a colaboradores id del usuario: "+cont.getUserApplicantId());
+				  String id = cont.getUserApplicantId();
+				  
+				  CollectionReference addedDocRef2 = db.getFirebase().collection("users");
+				  Query query2 = addedDocRef2.whereEqualTo("id", id);
+				  ApiFuture<QuerySnapshot> writeResult2 = query2.get();
+				  DocumentSnapshot document2 = writeResult2.get().getDocuments().get(0);
+				  
+				  User us = document2.toObject(User.class);
+				  userList.add(us);
+
+			}
+			return userList;
 		} catch (InterruptedException | ExecutionException e) {
 			// TODO Auto-generated catch bloc
 			e.printStackTrace();
