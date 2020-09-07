@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.clapp.demo.model.Project;
 import com.clapp.demo.model.Worker;
@@ -19,9 +20,11 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 
+@RestController
 public class WorkerController {
 	@Autowired
 	FirebaseInitializer db;
@@ -74,6 +77,22 @@ public class WorkerController {
 		ApiFuture<DocumentSnapshot> writeResult = addedDocRef.get();
 		try {
 			DocumentSnapshot document = writeResult.get();
+			Worker work = document.toObject(Worker.class);
+			return work;
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@GetMapping("/getWorkerUserId/{userId}")
+	public Worker getWorkerUserId (@PathVariable String userId) {
+		System.out.println("busco al worker con id"+userId);
+		CollectionReference addedDocRef = db.getFirebase().collection("workers");
+		Query query = addedDocRef.whereEqualTo("userId", userId);
+		ApiFuture<QuerySnapshot> writeResult = query.get();
+		try {
+			DocumentSnapshot document = writeResult.get().getDocuments().get(0);
 			Worker work = document.toObject(Worker.class);
 			return work;
 		} catch (InterruptedException | ExecutionException e) {

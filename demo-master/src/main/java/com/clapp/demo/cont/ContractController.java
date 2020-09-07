@@ -64,7 +64,7 @@ public class ContractController {
 	@GetMapping("/getAllContractsProject/{projectId}")
 	public List<Contract> getAllContractsBidderProject(@PathVariable String projectId) throws InterruptedException, ExecutionException {
 		CollectionReference addedDocRef = db.getFirebase().collection("Contracts");
-		Query query = addedDocRef.whereEqualTo("projectId", projectId);
+		Query query = addedDocRef.whereEqualTo("projectId", projectId).whereEqualTo("accepted", false);
 		ApiFuture<QuerySnapshot> writeResult = query.get();
 		try {
 			List<Contract> contracts = new ArrayList<Contract>();
