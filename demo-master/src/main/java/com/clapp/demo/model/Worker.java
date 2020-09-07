@@ -10,6 +10,22 @@ public class Worker {
 	private String mainRol;
 	private String description;
 	private List<String> briefcase;
+	private String profession;
+	private String studies;
+	
+	
+	public String getProfession() {
+		return profession;
+	}
+	public void setProfession(String profession) {
+		this.profession = profession;
+	}
+	public String getStudies() {
+		return studies;
+	}
+	public void setStudies(String studies) {
+		this.studies = studies;
+	}
 	public String getUserId() {
 		return userId;
 	}
