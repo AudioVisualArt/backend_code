@@ -14,6 +14,22 @@ public class Item {
 	
 	
 	
+	public String getItemDescription() {
+		return itemDescription;
+	}
+
+	public void setItemDescription(String itemDescription) {
+		this.itemDescription = itemDescription;
+	}
+
+	public String getIdOwner() {
+		return idOwner;
+	}
+
+	public void setIdOwner(String idOwner) {
+		this.idOwner = idOwner;
+	}
+
 	public String getId() {
 		return id;
 	}
