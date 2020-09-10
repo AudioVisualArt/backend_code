@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.clapp.demo.model.StockPhoto;
-import com.clapp.demo.model.Worker;
+import com.clapp.demo.model.ScreenPlay;
+import com.clapp.demo.model.Prop;
 import com.clapp.demo.service.FirebaseInitializer;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
@@ -24,59 +24,59 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 
 @RestController
-public class StockPhotoController {
+public class PropController {
 	@Autowired
 	FirebaseInitializer db;
-	@GetMapping("/getAllPhotos")
-	public List<StockPhoto> getAllPhotos() throws InterruptedException, ExecutionException {
+	@GetMapping("/getAllProps")
+	public List<Prop> getAllProps() throws InterruptedException, ExecutionException {
 		System.out.println("entre a los workers");
-		List<StockPhoto> photoList = new ArrayList<StockPhoto>();
-		CollectionReference photos= db.getFirebase().collection("photos");
+		List<Prop> propList = new ArrayList<Prop>();
+		CollectionReference props= db.getFirebase().collection("props");
 		//System.out.println("entre a los productos");
-		ApiFuture<QuerySnapshot> querySnapshot= photos.get();
+		ApiFuture<QuerySnapshot> querySnapshot= props.get();
 		//System.out.println("entre a los productos");
 		for(DocumentSnapshot doc:querySnapshot.get().getDocuments()) {
-			StockPhoto projecto = doc.toObject(StockPhoto.class);
-			photoList.add(projecto);
+			Prop projecto = doc.toObject(Prop.class);
+			propList.add(projecto);
 		}
-		return photoList;
+		return propList;
 	}
-	@PostMapping("/savePhoto")
-	public String savePhoto(@RequestBody StockPhoto photo) {
-		DocumentReference addedDocRef = db.getFirebase().collection("photos").document();
+	@PostMapping("/saveProp")
+	public String saveProp(@RequestBody Prop prop) {
+		DocumentReference addedDocRef = db.getFirebase().collection("props").document();
 		System.out.println("Added project with ID: " + addedDocRef.getId());
-		photo.setId(addedDocRef.getId());
-		ApiFuture<WriteResult> writeResult = addedDocRef.set(photo);
+		prop.setId(addedDocRef.getId());
+		ApiFuture<WriteResult> writeResult = addedDocRef.set(prop);
 		System.out.println(writeResult.isDone());
-		return photo.getId();
+		return prop.getId();
 	}
 	
-	@PutMapping("/updatePhoto/{photoId}")
-	public String updatePhoto (@PathVariable String photoId, @RequestBody StockPhoto photo) {
+	@PutMapping("/updateProp/{propId}")
+	public String updateProp (@PathVariable String propId, @RequestBody Prop prop) {
 		
-		DocumentReference addedDocRef = db.getFirebase().collection("photos").document(photoId);
-		ApiFuture<WriteResult> writeResult = addedDocRef.set(photo);
+		DocumentReference addedDocRef = db.getFirebase().collection("props").document(propId);
+		ApiFuture<WriteResult> writeResult = addedDocRef.set(prop);
 		System.out.println(writeResult.isDone());
-		return photo.getId();
+		return prop.getId();
 	}
-	@DeleteMapping("/deletePhoto/{photoId}")
-	public String deletePhoto (@PathVariable String photoId ) {
+	@DeleteMapping("/deleteProp/{propId}")
+	public String deleteProp (@PathVariable String propId ) {
 		
-		DocumentReference addedDocRef = db.getFirebase().collection("photos").document(photoId);
+		DocumentReference addedDocRef = db.getFirebase().collection("props").document(propId);
 		ApiFuture<WriteResult> writeResult = addedDocRef.delete();
 		System.out.println("resultado del borrado: "+writeResult.isDone());
-		return photoId;
+		return propId;
 	}
 	
 	
-	@GetMapping("/getPhoto/{photoId}")
-	public StockPhoto getPhoto (@PathVariable String photoId) {
+	@GetMapping("/getProp/{propId}")
+	public Prop getProp (@PathVariable String propId) {
 		
-		DocumentReference addedDocRef = db.getFirebase().collection("photos").document(photoId);
+		DocumentReference addedDocRef = db.getFirebase().collection("props").document(propId);
 		ApiFuture<DocumentSnapshot> writeResult = addedDocRef.get();
 		try {
 			DocumentSnapshot document = writeResult.get();
-			StockPhoto phot = document.toObject(StockPhoto.class);
+			Prop phot = document.toObject(Prop.class);
 			return phot;
 		} catch (InterruptedException | ExecutionException e) {
 			// TODO Auto-generated catch block
