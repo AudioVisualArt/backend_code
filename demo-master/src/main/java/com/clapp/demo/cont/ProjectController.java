@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.clapp.demo.model.Contract;
 import com.clapp.demo.model.Item;
 import com.clapp.demo.model.Project;
 import com.clapp.demo.service.FirebaseInitializer;
@@ -23,6 +24,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 
@@ -44,6 +46,24 @@ public class ProjectController {
 			projectList.add(projecto);
 		}
 		return projectList;
+	}
+	@GetMapping("/getAllProjectsUser/{ownerId}")
+ List<Project> getAllProjectsUser(@PathVariable String ownerId) throws InterruptedException, ExecutionException {
+		CollectionReference addedDocRef = db.getFirebase().collection("Contracts");
+		Query query = addedDocRef.whereEqualTo("ownerId", ownerId);
+		ApiFuture<QuerySnapshot> writeResult = query.get();
+		try {
+			List<Project> projects = new ArrayList<Project>();
+			for (DocumentSnapshot document : writeResult.get().getDocuments()) {
+				  //System.out.println(document.getId());
+					projects.add(document.toObject(Project.class));
+				  }
+			return projects;
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch bloc
+			e.printStackTrace();
+		}
+		return null;
 	}
 	@PostMapping("/saveProject")
 	public String saveProject(@RequestBody Project proj) {

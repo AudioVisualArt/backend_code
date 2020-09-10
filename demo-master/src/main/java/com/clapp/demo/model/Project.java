@@ -13,7 +13,31 @@ public class Project {
 	private String projectType;
 	String description;
 	private String id;
+	private String ownerId;
 	
+	
+	
+	public String getOwnerId() {
+		return ownerId;
+	}
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
+	}
+	public void setContacto(String contacto) {
+		this.contacto = contacto;
+	}
+	public void setCrew(List<String> crew) {
+		this.crew = crew;
+	}
+	public void setProyectName(String proyectName) {
+		this.proyectName = proyectName;
+	}
+	public void setProjectType(String projectType) {
+		this.projectType = projectType;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public String getContacto() {
 		return contacto;
 	}

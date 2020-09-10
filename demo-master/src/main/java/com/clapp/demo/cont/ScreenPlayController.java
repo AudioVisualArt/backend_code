@@ -28,8 +28,8 @@ public class ScreenPlayController {
 	
 		@Autowired
 		FirebaseInitializer db;
-		@GetMapping("/getAllPhotos")
-		public List<ScreenPlay> getAllPhotos() throws InterruptedException, ExecutionException {
+		@GetMapping("/getAllScreen")
+		public List<ScreenPlay> getAllScreen() throws InterruptedException, ExecutionException {
 			System.out.println("entre a los workers");
 			List<ScreenPlay> screenList = new ArrayList<ScreenPlay>();
 			CollectionReference screens= db.getFirebase().collection("screens");
@@ -42,8 +42,8 @@ public class ScreenPlayController {
 			}
 			return screenList;
 		}
-		@PostMapping("/savePhoto")
-		public String savePhoto(@RequestBody ScreenPlay screen) {
+		@PostMapping("/saveScreen")
+		public String saveScreen(@RequestBody ScreenPlay screen) {
 			DocumentReference addedDocRef = db.getFirebase().collection("screens").document();
 			System.out.println("Added project with ID: " + addedDocRef.getId());
 			screen.setId(addedDocRef.getId());
@@ -52,16 +52,16 @@ public class ScreenPlayController {
 			return screen.getId();
 		}
 		
-		@PutMapping("/updatePhoto/{screenId}")
-		public String updatePhoto (@PathVariable String screenId, @RequestBody ScreenPlay screen) {
+		@PutMapping("/updateScreen/{screenId}")
+		public String updateScreen (@PathVariable String screenId, @RequestBody ScreenPlay screen) {
 			
 			DocumentReference addedDocRef = db.getFirebase().collection("screens").document(screenId);
 			ApiFuture<WriteResult> writeResult = addedDocRef.set(screen);
 			System.out.println(writeResult.isDone());
 			return screen.getId();
 		}
-		@DeleteMapping("/deletePhoto/{screenId}")
-		public String deletePhoto (@PathVariable String screenId ) {
+		@DeleteMapping("/deleteScreen/{screenId}")
+		public String deleteScreen (@PathVariable String screenId ) {
 			
 			DocumentReference addedDocRef = db.getFirebase().collection("screens").document(screenId);
 			ApiFuture<WriteResult> writeResult = addedDocRef.delete();
@@ -70,8 +70,8 @@ public class ScreenPlayController {
 		}
 		
 		
-		@GetMapping("/getPhoto/{screenId}")
-		public ScreenPlay getPhoto (@PathVariable String screenId) {
+		@GetMapping("/getScreen/{screenId}")
+		public ScreenPlay getScreen (@PathVariable String screenId) {
 			
 			DocumentReference addedDocRef = db.getFirebase().collection("screens").document(screenId);
 			ApiFuture<DocumentSnapshot> writeResult = addedDocRef.get();
