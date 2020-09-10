@@ -48,8 +48,8 @@ public class ProjectController {
 		return projectList;
 	}
 	@GetMapping("/getAllProjectsUser/{ownerId}")
- List<Project> getAllProjectsUser(@PathVariable String ownerId) throws InterruptedException, ExecutionException {
-		CollectionReference addedDocRef = db.getFirebase().collection("Contracts");
+		List<Project> getAllProjectsUser(@PathVariable String ownerId) throws InterruptedException, ExecutionException {
+		CollectionReference addedDocRef = db.getFirebase().collection("projects");
 		Query query = addedDocRef.whereEqualTo("ownerId", ownerId);
 		ApiFuture<QuerySnapshot> writeResult = query.get();
 		try {
