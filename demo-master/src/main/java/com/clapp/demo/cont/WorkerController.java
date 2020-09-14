@@ -46,7 +46,7 @@ public class WorkerController {
 	public String saveProject(@RequestBody Worker work) {
 		DocumentReference addedDocRef = db.getFirebase().collection("workers").document();
 		System.out.println("Added project with ID: " + addedDocRef.getId());
-		work.setUserId(addedDocRef.getId());
+		//work.setUserId(addedDocRef.getId());
 		ApiFuture<WriteResult> writeResult = addedDocRef.set(work);
 		System.out.println(writeResult.isDone());
 		return work.getUserId();
