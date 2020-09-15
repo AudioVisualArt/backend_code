@@ -11,8 +11,16 @@ public class User {
 	String email;
 	String name;
 	int rating;
+	String photoUrl;
 	
 	
+	
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
+	}
 	public String getId() {
 		return id;
 	}
