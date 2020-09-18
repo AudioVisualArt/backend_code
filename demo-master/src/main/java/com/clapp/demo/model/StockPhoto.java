@@ -4,10 +4,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StockPhoto extends Item{
-	String id;
+	
 	String photoType;
-	float width;
-	float heigth;
+	double width;
+	double heigth;
 	
 	
 	public String getPhotoType() {
@@ -16,24 +16,19 @@ public class StockPhoto extends Item{
 	public void setPhotoType(String photoType) {
 		this.photoType = photoType;
 	}
-	public float getWidth() {
+	public double getWidth() {
 		return width;
 	}
 	public void setWidth(float width) {
 		this.width = width;
 	}
-	public float getHeigth() {
+	public double getHeigth() {
 		return heigth;
 	}
 	public void setHeigth(float heigth) {
 		this.heigth = heigth;
 	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
+
 	
 	
 }
