@@ -17,24 +17,9 @@ public class Contract {
 	String projectId;
 	String id;
 	boolean accepted;
-	float latitud;
-    float longitud;
-
 	
 	
 	
-	public float getLatitud() {
-		return latitud;
-	}
-	public void setLatitud(float latitud) {
-		this.latitud = latitud;
-	}
-	public float getLongitud() {
-		return longitud;
-	}
-	public void setLongitud(float longitud) {
-		this.longitud = longitud;
-	}
 	public boolean isAccepted() {
 		return accepted;
 	}
