@@ -30,11 +30,11 @@ public class ChatController {
 	
 	@PostMapping("/saveMessage/{fecha}")
 	public String saveMessage(@RequestBody Mensaje msg,@PathVariable String fecha) {
-	
-		System.out.println("print "+msg.getContenido());
+		System.out.println("entre mensajes con contenido  "+msg.getContenido());
 		DocumentReference addedDocRef1=db.getFirebase().collection("chats").document(msg.getChatid());
-		DocumentReference addedDocRef = db.getFirebase().collection("chats").document(msg.getChatid()).collection("mensajes").document();
-		ApiFuture<WriteResult> writeResult = addedDocRef.set(msg);
+		msg.setFecha(fecha);
+		ApiFuture<DocumentReference> writeResult =addedDocRef1.collection("mensajes").add(msg);
+	
 		ApiFuture<DocumentSnapshot> writeResult2 = addedDocRef1.get();
 		try {
 			
@@ -43,11 +43,9 @@ public class ChatController {
 			cht.setFecha(fecha);
 			ApiFuture<WriteResult> writeChat = addedDocRef1.set(cht);
 		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Added msg with ID: " + addedDocRef.getId());
-		System.out.println(writeResult.isDone());
+		
 		return "ok";
 	}
 	@PostMapping("/saveChat")
@@ -77,7 +75,7 @@ public class ChatController {
 		ApiFuture<QuerySnapshot> querySnapshotb= query2.get();
 		//System.out.println("entre a los productos");
 		for(DocumentSnapshot doc:querySnapshot.get().getDocuments()) {
-			Chat cht = doc.toObject(Chat.class);
+			Chat cht = doc.toObject(Chat.class);		
 			CollectionReference msgs=db.getFirebase().collection("chats").document(cht.getChatId()).collection("mensajes");
 			ApiFuture<QuerySnapshot> querySnapshot2= msgs.get();
 			for(DocumentSnapshot doc2:querySnapshot2.get().getDocuments()) {
@@ -88,7 +86,9 @@ public class ChatController {
 			chatList.add(cht);
 		}
 		for(DocumentSnapshot doc:querySnapshotb.get().getDocuments()) {
+			
 			Chat cht = doc.toObject(Chat.class);
+		
 			CollectionReference msgs=db.getFirebase().collection("chats").document(cht.getChatId()).collection("mensajes");
 			ApiFuture<QuerySnapshot> querySnapshot2= msgs.get();
 			for(DocumentSnapshot doc2:querySnapshot2.get().getDocuments()) {
@@ -98,6 +98,26 @@ public class ChatController {
 			cht.setMensajes(mensajes);
 			chatList.add(cht);
 		}
+		
 		return chatList;
 	}
+	@GetMapping("/getAllMess/{chatId}")
+	public List<Mensaje> getAllMess(@PathVariable String chatId) throws InterruptedException, ExecutionException {
+		List<Mensaje> mensajes=new ArrayList<Mensaje>();
+		CollectionReference msgs=db.getFirebase().collection("chats").document(chatId).collection("mensajes");
+		ApiFuture<QuerySnapshot> querySnapshot2= msgs.get();
+		if(querySnapshot2.get()!=null) {
+			for(DocumentSnapshot doc2:querySnapshot2.get().getDocuments()) {
+				Mensaje msg=doc2.toObject(Mensaje.class);
+				mensajes.add(msg);
+			}
+			return mensajes;
+		}else {
+			return null;
+		}
+		
+		
+	}
+	
+	
 }
