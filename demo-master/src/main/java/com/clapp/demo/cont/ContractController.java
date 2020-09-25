@@ -42,6 +42,24 @@ public class ContractController {
 		}
 		return contList;
 	}
+	@GetMapping("/getAllContractsRecibed/{applicantId}")
+	public List<Contract> getAllContractsRecibed(@PathVariable String applicantId) throws InterruptedException, ExecutionException {
+		CollectionReference addedDocRef = db.getFirebase().collection("Contracts");
+		Query query = addedDocRef.whereEqualTo("userApplicantId", applicantId).whereEqualTo("accepted", false);
+		ApiFuture<QuerySnapshot> writeResult = query.get();
+		try {
+			List<Contract> contracts = new ArrayList<Contract>();
+			for (DocumentSnapshot document : writeResult.get().getDocuments()) {
+				  System.out.println(document.getId());
+				  contracts.add(document.toObject(Contract.class));
+				  }
+			return contracts;
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch bloc
+			e.printStackTrace();
+		}
+		return null;
+	}
 	@GetMapping("/getAllContractsBidder/{bidderId}")
 	public List<Contract> getAllContractsBidder(@PathVariable String bidderId) throws InterruptedException, ExecutionException {
 		CollectionReference addedDocRef = db.getFirebase().collection("Contracts");
