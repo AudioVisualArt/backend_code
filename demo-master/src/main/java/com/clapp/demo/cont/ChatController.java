@@ -64,7 +64,7 @@ public class ChatController {
 	
 	@GetMapping("/getAllChats/{userId}")
 	public List<Chat> getAllChats(@PathVariable String userId) throws InterruptedException, ExecutionException {
-		
+		System.out.println("entre a los chats");
 		List<Chat> chatList = new ArrayList<Chat>();
 		List<Mensaje> mensajes=new ArrayList<Mensaje>();
 		CollectionReference chat= db.getFirebase().collection("chats");
