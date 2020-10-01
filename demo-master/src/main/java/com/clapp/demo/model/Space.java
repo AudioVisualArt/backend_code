@@ -9,15 +9,28 @@ public class Space {
 	String scheduleDays;
 	String scheduleHours;
 	String name;
-	String Location;
+	String location;
 	int rating;
 	String userOwner;
 	String description;
 	int minimumHours;
-	long priceHour;
+	double priceHour;
+	String imageUrl;
 	
 	
 	
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	public String getId() {
 		return id;
 	}
@@ -42,11 +55,11 @@ public class Space {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getLocation() {
-		return Location;
+	public String getlocation() {
+		return location;
 	}
-	public void setLocation(String location) {
-		Location = location;
+	public void setlocation(String location) {
+		location = location;
 	}
 	public int getRating() {
 		return rating;
@@ -72,10 +85,10 @@ public class Space {
 	public void setMinimumHours(int minimumHours) {
 		this.minimumHours = minimumHours;
 	}
-	public long getPriceHour() {
+	public double getPriceHour() {
 		return priceHour;
 	}
-	public void setPriceHour(long priceHour) {
+	public void setPriceHour(double priceHour) {
 		this.priceHour = priceHour;
 	}
 	
