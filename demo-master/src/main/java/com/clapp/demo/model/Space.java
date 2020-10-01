@@ -55,12 +55,7 @@ public class Space {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getlocation() {
-		return location;
-	}
-	public void setlocation(String location) {
-		location = location;
-	}
+	
 	public int getRating() {
 		return rating;
 	}
