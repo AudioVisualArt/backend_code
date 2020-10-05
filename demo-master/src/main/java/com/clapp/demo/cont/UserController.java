@@ -113,7 +113,7 @@ public class UserController {
 	public List<User> getCollaborators (@PathVariable String projectId) {
 		
 		CollectionReference addedDocRef = db.getFirebase().collection("Contracts");
-		Query query = addedDocRef.whereEqualTo("projectId", projectId).whereEqualTo("accepted", true);
+		Query query = addedDocRef.whereEqualTo("projectId", projectId).whereEqualTo("acceptedApplicant", true).whereEqualTo("acceptedBidder", true);
 		ApiFuture<QuerySnapshot> writeResult = query.get();
 
 	//	DocumentReference addedDocRef = db.getFirebase().collection("users").document(email);
