@@ -18,9 +18,24 @@ public class Contract {
 	String id;
 	double latitud;
 	double longitud;
-	boolean accepted;
+	boolean acceptedBidder;
+	boolean acceptedApplicant;
 	
 	
+	
+	
+	public boolean isAcceptedBidder() {
+		return acceptedBidder;
+	}
+	public void setAcceptedBidder(boolean acceptedBidder) {
+		this.acceptedBidder = acceptedBidder;
+	}
+	public boolean isAcceptedApplicant() {
+		return acceptedApplicant;
+	}
+	public void setAcceptedApplicant(boolean acceptedApplicant) {
+		this.acceptedApplicant = acceptedApplicant;
+	}
 	public double getLatitud() {
 		return latitud;
 	}
@@ -33,12 +48,7 @@ public class Contract {
 	public void setLongitud(double longitud) {
 		this.longitud = longitud;
 	}
-	public boolean isAccepted() {
-		return accepted;
-	}
-	public void setAccepted(boolean accepted) {
-		this.accepted = accepted;
-	}
+	
 	public String getProjectId() {
 		return projectId;
 	}
