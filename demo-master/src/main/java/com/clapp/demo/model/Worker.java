@@ -13,9 +13,23 @@ public class Worker {
 	private String profession;
 	private String studies;
 	private String hvUrl;
+	private double minPayment;
+	private double maxPayment;
 	
 	
 	
+	public double getMinPayment() {
+		return minPayment;
+	}
+	public void setMinPayment(double minPayment) {
+		this.minPayment = minPayment;
+	}
+	public double getMaxPayment() {
+		return maxPayment;
+	}
+	public void setMaxPayment(double maxPayment) {
+		this.maxPayment = maxPayment;
+	}
 	public String getHvUrl() {
 		return hvUrl;
 	}
