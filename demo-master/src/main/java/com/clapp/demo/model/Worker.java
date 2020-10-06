@@ -12,8 +12,16 @@ public class Worker {
 	private List<String> briefcase;
 	private String profession;
 	private String studies;
+	private String hvUrl;
 	
 	
+	
+	public String getHvUrl() {
+		return hvUrl;
+	}
+	public void setHvUrl(String hvUrl) {
+		this.hvUrl = hvUrl;
+	}
 	public String getProfession() {
 		return profession;
 	}

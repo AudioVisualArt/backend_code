@@ -8,8 +8,23 @@ public class Equipment extends Item{
 	String specs;
 	String marca;
 	String modelo;
+	boolean rent;
+	boolean sell;
 	
 	
+	
+	public boolean isRent() {
+		return rent;
+	}
+	public void setRent(boolean rent) {
+		this.rent = rent;
+	}
+	public boolean isSell() {
+		return sell;
+	}
+	public void setSell(boolean sell) {
+		this.sell = sell;
+	}
 	public String getSpecs() {
 		return specs;
 	}
