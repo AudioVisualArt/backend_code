@@ -10,9 +10,15 @@ public class Equipment extends Item{
 	String modelo;
 	boolean rent;
 	boolean sell;
+	String tag;
 	
 	
-	
+	public String getTag() {
+		return tag;
+	}
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
 	public boolean isRent() {
 		return rent;
 	}
