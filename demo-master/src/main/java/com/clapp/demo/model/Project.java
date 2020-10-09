@@ -14,9 +14,18 @@ public class Project {
 	String description;
 	private String id;
 	private String ownerId;
+	private String executive_summary;
 	
 	
 	
+	
+	
+	public void setExecutive_summary(String executive_summary) {
+		this.executive_summary = executive_summary;
+	}
+	public String getExecutive_summary() {
+		return executive_summary;
+	}
 	public String getOwnerId() {
 		return ownerId;
 	}
