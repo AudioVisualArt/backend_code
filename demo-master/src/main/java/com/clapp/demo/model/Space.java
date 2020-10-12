@@ -13,7 +13,7 @@ public class Space {
 	int rating;
 	String userOwner;
 	String description;
-	int minimumHours;
+	String minimumHours;
 	double priceHour;
 	String imageUrl;
 	
@@ -74,10 +74,10 @@ public class Space {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getMinimumHours() {
+	public String getMinimumHours() {
 		return minimumHours;
 	}
-	public void setMinimumHours(int minimumHours) {
+	public void setMinimumHours(String minimumHours) {
 		this.minimumHours = minimumHours;
 	}
 	public double getPriceHour() {
