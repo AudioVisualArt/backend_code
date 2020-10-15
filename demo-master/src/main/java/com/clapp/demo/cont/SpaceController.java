@@ -19,6 +19,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 
@@ -84,4 +85,20 @@ public class SpaceController {
 		}
 		return null;
 	}
+	
+	@GetMapping("/getAllSpacesUser/{userId}")
+	public List<Space> getAllSpacesUser(@PathVariable String userId) throws InterruptedException, ExecutionException {
+		
+		List<Space> spaceList = new ArrayList<Space>();
+		CollectionReference spaces= db.getFirebase().collection("spaces");
+		Query query = spaces.whereEqualTo("userOwner", userId);
+		
+		ApiFuture<QuerySnapshot> querySnapshot= query.get();
+		//System.out.println("entre a los productos");
+		for(DocumentSnapshot doc:querySnapshot.get().getDocuments()) {
+			Space space = doc.toObject(Space.class);
+			spaceList.add(space);
+		}
+		return spaceList;
+}
 }

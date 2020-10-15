@@ -101,4 +101,18 @@ public class WorkerController {
 		}
 		return null;
 	}
+	@GetMapping("/getAllWorkersFromUser/{userId}")
+	public List<Worker> getAllWorkersFromUser(@PathVariable String userId) throws InterruptedException, ExecutionException {
+		
+		List<Worker> workerList = new ArrayList<Worker>();
+		CollectionReference workers= db.getFirebase().collection("workers");
+		Query query = workers.whereEqualTo("userId", userId);
+		ApiFuture<QuerySnapshot> querySnapshot= query.get();
+		
+		for(DocumentSnapshot doc:querySnapshot.get().getDocuments()) {
+			Worker projecto = doc.toObject(Worker.class);
+			workerList.add(projecto);
+		}
+		return workerList;
+	}
 }

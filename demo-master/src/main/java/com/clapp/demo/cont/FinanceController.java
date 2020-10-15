@@ -36,10 +36,28 @@ public class FinanceController {
 		Query query = Finance.whereEqualTo("projectId", projectId);
 		ApiFuture<QuerySnapshot> querySnapshot= query.get();
 		//System.out.println("entre a los productos");
+		Finance total = new Finance();
+		double total_percentage=0.0;
 		for(DocumentSnapshot doc:querySnapshot.get().getDocuments()) {
 			Finance usr = doc.toObject(Finance.class);
+			if(usr.getTitle().equals("Total")) {
+				total=usr;
+			}
 			FinanceList.add(usr);
 		}
+		for (Finance fin : FinanceList) {
+			if(!fin.getTitle().equals("Total")) {
+				fin.setPercentage(fin.getQuantity()/total.getQuantity());
+				total_percentage += fin.getPercentage();
+			}
+		}
+		for (Finance fin : FinanceList) {
+			if(fin.getTitle().equals("Total")) {
+				fin.setPercentage(total_percentage);
+			}
+		}
+		
+		
 		return FinanceList;
 	}
 	
