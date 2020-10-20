@@ -54,10 +54,7 @@ public class ChatController {
 		System.out.println("Added chat with ID: " + addedDocRef.getId());
 		chat.setChatId(addedDocRef.getId());
 		ApiFuture<WriteResult> writeResult = addedDocRef.set(chat);
-		DocumentReference addedDocRef2 = db.getFirebase().collection("chats").document(chat.getChatId());
 		
-		//DocumentReference addedDocRef2 = db.getFirebase().collection("chats").document(chat.getChatId());
-		//ApiFuture<QuerySnapshot> writeResult2 = addedDocRef2.collection("mensajes").get();
 		System.out.println(writeResult.isDone());
 		return chat.getChatId();
 	}
