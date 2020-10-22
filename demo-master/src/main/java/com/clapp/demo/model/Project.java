@@ -15,11 +15,16 @@ public class Project {
 	private String id;
 	private String ownerId;
 	private String executive_summary;
+	private String main_file;
 	
 	
 	
-	
-	
+	public String getMain_file() {
+		return main_file;
+	}
+	public void setMain_file(String main_file) {
+		this.main_file = main_file;
+	}
 	public void setExecutive_summary(String executive_summary) {
 		this.executive_summary = executive_summary;
 	}

@@ -1,5 +1,7 @@
 package com.clapp.demo.cont;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -47,18 +49,30 @@ public class FinanceController {
 		}
 		for (Finance fin : FinanceList) {
 			if(!fin.getTitle().equals("Total")) {
-				fin.setPercentage(fin.getQuantity()/total.getQuantity());
+				fin.setPercentage(round(fin.getQuantity()/total.getQuantity(),3));
 				total_percentage += fin.getPercentage();
 			}
 		}
-		for (Finance fin : FinanceList) {
-			if(fin.getTitle().equals("Total")) {
-				fin.setPercentage(total_percentage);
+		
+		Finance temp = new Finance();
+		for (int i = 0 ; i<FinanceList.size();++i) {
+			if(FinanceList.get(i).getTitle().equals("Total")) {
+				FinanceList.get(i).setPercentage(total_percentage);
+				temp = FinanceList.get(i);
+				FinanceList.remove(i);		
 			}
 		}
-		
+		FinanceList.add(temp);
 		
 		return FinanceList;
+	}
+	
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    BigDecimal bd = BigDecimal.valueOf(value);
+	    bd = bd.setScale(places, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
 	}
 	
 	@GetMapping("/getAllFinances")
