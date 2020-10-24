@@ -16,9 +16,23 @@ public class Space {
 	String minimumHours;
 	double priceHour;
 	String imageUrl;
+	double latitud;
+	double longitud;
 	
 	
 	
+	public double getLatitud() {
+		return latitud;
+	}
+	public void setLatitud(double latitud) {
+		this.latitud = latitud;
+	}
+	public double getLongitud() {
+		return longitud;
+	}
+	public void setLongitud(double longitud) {
+		this.longitud = longitud;
+	}
 	public String getLocation() {
 		return location;
 	}
