@@ -25,6 +25,7 @@ public class FirebaseInitializer {
 
 		InputStream serviceAccount;
 		try {
+			
 			serviceAccount = createFirebaseCredential();
 			FirebaseOptions options = new FirebaseOptions.Builder()
 					.setCredentials(GoogleCredentials.fromStream(serviceAccount))
