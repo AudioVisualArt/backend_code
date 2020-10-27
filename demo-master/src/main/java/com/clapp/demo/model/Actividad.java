@@ -7,6 +7,8 @@ public class Actividad {
 	private String descripcion;
 	private String fecha;
 	private String tipo;
+	private String contenido;
+	private String photoUrl;
 	
 	public String getDescripcion() {
 		return descripcion;
@@ -25,6 +27,18 @@ public class Actividad {
 	}
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+	public String getContenido() {
+		return contenido;
+	}
+	public void setContenido(String contenido) {
+		this.contenido = contenido;
+	}
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
 	}
 	
 	

@@ -4,14 +4,15 @@ import org.springframework.stereotype.Component;
 
 @Component 
 public class Registro {
-	String IdUser;
+	String idUser;
 
-	public String getIdUser() {
-		return IdUser;
+	public String getidUser() {
+		return idUser;
 	}
 
-	public void setIdUser(String idUser) {
-		IdUser = idUser;
+	public void setidUser(String idUser) {
+		this.idUser = idUser;
 	}
 
 }
+	
