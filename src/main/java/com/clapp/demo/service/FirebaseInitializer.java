@@ -26,7 +26,7 @@ public class FirebaseInitializer {
 		
 			FirebaseOptions options = new FirebaseOptions.Builder()
 					.setCredentials(GoogleCredentials.fromStream(serviceAccount))
-					.setDatabaseUrl("https://clappauth.firebaseio.com").build();
+					.setDatabaseUrl("https://clapptest1-f246c.firebaseio.com").build();
 
 			if (FirebaseApp.getApps().isEmpty()) {
 				FirebaseApp.initializeApp(options);
