@@ -20,13 +20,10 @@ public class FirebaseInitializer {
 
 	@PostConstruct
 	private void initDB() throws IOException {
-		//InputStream serviceAccount = this.getClass().getClassLoader()
-				//.getResourceAsStream("./clappauth-firebase-adminsdk-gyzjx-aa03b4f0bf.json");
+		InputStream serviceAccount = this.getClass().getClassLoader()
+				.getResourceAsStream("./clapptest1-f246c-firebase-adminsdk-5s1j3-50f4d1e18f.json");
 
-		InputStream serviceAccount;
-		try {
-			
-			serviceAccount = createFirebaseCredential();
+		
 			FirebaseOptions options = new FirebaseOptions.Builder()
 					.setCredentials(GoogleCredentials.fromStream(serviceAccount))
 					.setDatabaseUrl("https://clappauth.firebaseio.com").build();
@@ -34,10 +31,8 @@ public class FirebaseInitializer {
 			if (FirebaseApp.getApps().isEmpty()) {
 				FirebaseApp.initializeApp(options);
 			}
-		} catch (Exception e) {
+		
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		
 	}
