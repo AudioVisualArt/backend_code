@@ -26,10 +26,10 @@ public class FirebaseInitializer {
 		InputStream serviceAccount;
 		try {
 			
-			serviceAccount = createFirebaseCredential2();
+			serviceAccount = createFirebaseCredential();
 			FirebaseOptions options = new FirebaseOptions.Builder()
 					.setCredentials(GoogleCredentials.fromStream(serviceAccount))
-					.setDatabaseUrl("https://clapptest1-f246c.firebaseio.com").build();
+					.setDatabaseUrl("https://clappauth.firebaseio.com").build();
 
 			if (FirebaseApp.getApps().isEmpty()) {
 				FirebaseApp.initializeApp(options);
