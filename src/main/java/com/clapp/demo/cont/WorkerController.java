@@ -42,6 +42,24 @@ public class WorkerController {
 		}
 		return workerList;
 	}
+	@GetMapping("/getAllWorkersTop")
+	public List<Worker> getAllWorkersTop() throws InterruptedException, ExecutionException {
+		System.out.println("entre a los workers");
+		List<Worker> workerList = new ArrayList<Worker>();
+		CollectionReference workers= db.getFirebase().collection("workers");
+		//System.out.println("entre a los productos");
+		ApiFuture<QuerySnapshot> querySnapshot= workers.get();
+		//System.out.println("entre a los productos");
+		for(DocumentSnapshot doc:querySnapshot.get().getDocuments()) {
+			Worker projecto = doc.toObject(Worker.class);
+			workerList.add(projecto);
+		}
+		if(workerList.size()>=10) {
+		return workerList.subList(0, 9);
+		}else {
+		return workerList;	
+		}
+	}
 	@PostMapping("/saveWorker")
 	public String saveProject(@RequestBody Worker work) {
 		DocumentReference addedDocRef = db.getFirebase().collection("workers").document();
