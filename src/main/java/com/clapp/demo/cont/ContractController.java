@@ -21,6 +21,7 @@ import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Query;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 
@@ -139,4 +140,47 @@ public class ContractController {
 		}
 		return null;
 	}
+        
+        @PostMapping("/saveuserAplicando/{ContractId}")
+	public String saveuserAplicando(@RequestBody User usuario,@PathVariable String ContractId) {
+		CollectionReference aplicando= db.getFirebase().collection("Contracts");
+		Query query = aplicando.whereEqualTo("id", ContractId);
+		String id;
+		ApiFuture<QuerySnapshot> querySnapshot= query.get();
+		
+		try {			
+			querySnapshot= query.get();
+			List<QueryDocumentSnapshot> docs= querySnapshot.get().getDocuments();
+			id=docs.get(0).getId();
+			DocumentReference addedDocRef = db.getFirebase().collection("Contracts").document(id);
+			ApiFuture<DocumentReference> writeResult =addedDocRef.collection("UsersApplying").add(usuario);
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block	
+			e.printStackTrace();
+		}
+	
+		return "";
+	}
+        
+        @GetMapping("/getAllUsersApplying/{ContractId}")
+	public List<User> getAllUsersApplying(@PathVariable String ContractId) throws InterruptedException, ExecutionException {
+		
+		List<User> usersApplyingList = new ArrayList<User>();
+		CollectionReference contract= db.getFirebase().collection("Contracts");
+		Query query = contract.whereEqualTo("id", ContractId);
+		ApiFuture<QuerySnapshot> querySnapshot= query.get();
+		//System.out.println("entre a los productos");
+		//System.out.println("entre a los productos");
+		for(DocumentSnapshot doc:querySnapshot.get().getDocuments()) {
+			CollectionReference usersApp=db.getFirebase().collection("Contracts").document(doc.getId()).collection("UsersApplying");
+			ApiFuture<QuerySnapshot> querySnapshot2= usersApp.get();
+			for(DocumentSnapshot doc2:querySnapshot2.get().getDocuments()) {
+				User usuario=doc2.toObject(User.class);
+				usersApplyingList.add(usuario);
+			}
+		}
+		
+		return usersApplyingList;
+	}
+	
 }
