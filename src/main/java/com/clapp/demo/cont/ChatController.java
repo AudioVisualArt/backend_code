@@ -98,6 +98,53 @@ public class ChatController {
 		
 		return chatList;
 	}
+	@GetMapping("/getChat/{userId}/{userId2}")
+	public List<Chat> getChat(@PathVariable String userId,@PathVariable String userId2) throws InterruptedException, ExecutionException {
+		System.out.println("entre a los chats");
+		
+		Chat ch1 = null
+		,ch2=null;
+		List<Chat> chatList = new ArrayList<Chat>();
+		List<Mensaje> mensajes=new ArrayList<Mensaje>();
+		CollectionReference chat= db.getFirebase().collection("chats");
+		Query query = chat.whereEqualTo("usuarioD", userId).whereEqualTo("usuarioO", userId2);
+		Query query2 = chat.whereEqualTo("usuarioO", userId).whereEqualTo("usuarioD", userId2);
+		//System.out.println("entre a los productos");
+		ApiFuture<QuerySnapshot> querySnapshot= query.get();
+		ApiFuture<QuerySnapshot> querySnapshotb= query2.get();
+		//System.out.println("entre a los productos");
+		for(DocumentSnapshot doc:querySnapshot.get().getDocuments()) {
+			Chat cht = doc.toObject(Chat.class);		
+			CollectionReference msgs=db.getFirebase().collection("chats").document(cht.getChatId()).collection("mensajes");
+			ApiFuture<QuerySnapshot> querySnapshot2= msgs.get();
+			for(DocumentSnapshot doc2:querySnapshot2.get().getDocuments()) {
+				Mensaje msg=doc2.toObject(Mensaje.class);
+				mensajes.add(msg);
+			}
+			cht.setMensajes(mensajes);
+			chatList.add(cht);
+			ch1=cht;
+		}
+		for(DocumentSnapshot doc:querySnapshotb.get().getDocuments()) {
+			
+			Chat cht = doc.toObject(Chat.class);
+		
+			CollectionReference msgs=db.getFirebase().collection("chats").document(cht.getChatId()).collection("mensajes");
+			ApiFuture<QuerySnapshot> querySnapshot2= msgs.get();
+			for(DocumentSnapshot doc2:querySnapshot2.get().getDocuments()) {
+				Mensaje msg=doc2.toObject(Mensaje.class);
+				mensajes.add(msg);
+			}
+			cht.setMensajes(mensajes);
+			chatList.add(cht);
+			ch2=cht;
+		}
+		System.out.println("TAMAÑO"+chatList.size());
+		for(int i=0;i<chatList.size();i++) {
+			System.out.println(chatList.get(i).getChatId());
+		}
+		return chatList;
+	}
 	@GetMapping("/getAllMess/{chatId}")
 	public List<Mensaje> getAllMess(@PathVariable String chatId) throws InterruptedException, ExecutionException {
 		List<Mensaje> mensajes=new ArrayList<Mensaje>();
