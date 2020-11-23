@@ -20,8 +20,8 @@ public class Contract {
     double longitud;
     boolean acceptedBidder;
     boolean acceptedApplicant;    
-    List<User> useraplicando;
     List<User> userDenegado;
+    boolean publico;
 
     public boolean isAcceptedBidder() {
         return acceptedBidder;
@@ -143,5 +143,15 @@ public class Contract {
     public void setUserBidderId(String userBidderId) {
         this.userBidderId = userBidderId;
     }
+
+
+	public boolean isPublico() {
+		return publico;
+	}
+
+
+	public void setPublico(boolean publico) {
+		this.publico = publico;
+	}
 
 }
