@@ -20,6 +20,7 @@ public class Contract {
     double longitud;
     boolean acceptedBidder;
     boolean acceptedApplicant;    
+    List<User> useraplicando;
     List<User> userDenegado;
     boolean publico;
 
